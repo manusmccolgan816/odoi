@@ -1,4 +1,3 @@
-
 class QuizSession(
     private val numberOfQuestions: Int,
 ) {
@@ -15,5 +14,9 @@ class QuizSession(
         Thread.sleep(1000)
         print("1...")
         Thread.sleep(1000)
+    }
+
+    private fun loadQuestions(numberOfQuestions: Int) {
+
     }
 }

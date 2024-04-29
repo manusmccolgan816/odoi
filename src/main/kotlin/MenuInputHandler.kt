@@ -16,7 +16,7 @@ class MenuInputHandler {
     }
 
     private fun isValidNumberOfQuestions(numberOfQuestions: String): Boolean {
-        return isInt(numberOfQuestions) && numberOfQuestions.toInt() <= 100
+        return isInt(numberOfQuestions) && numberOfQuestions.toInt() <= MAX_NUMBER_OF_QUESTIONS
     }
 
     private fun isInt(toCheck: String): Boolean {
