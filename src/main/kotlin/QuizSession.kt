@@ -8,7 +8,8 @@ class QuizSession(
 
     fun startQuiz() {
         doCountdown()
-        questions = loadQuestions(numberOfQuestions)
+        questions = loadQuestions()
+        askQuestions()
     }
 
     private fun doCountdown() {
@@ -21,7 +22,7 @@ class QuizSession(
         Thread.sleep(1000)
     }
 
-    private fun loadQuestions(numberOfQuestions: Int): MutableList<Question> {
+    private fun loadQuestions(): MutableList<Question> {
         var count = 0
         val questions: MutableList<Question> = mutableListOf()
 
@@ -38,7 +39,19 @@ class QuizSession(
             DirectObject.entries[Random.nextInt(0, DirectObject.entries.size)],
             IndirectObject.entries[Random.nextInt(0, IndirectObject.entries.size)],
             Infinitive(),
+            Subject.entries[Random.nextInt(0, Subject.entries.size)],
             Tense.entries[Random.nextInt(0, Tense.entries.size)]
         )
+    }
+
+    private fun askQuestions() {
+        var count = 0
+
+        while (count < numberOfQuestions) {
+            val question = questions[count]
+            print("Dir. object: ${question.directObject.name} | Ind. object: ${question.indirectObject.name} | Action: ${question.infinitive} | Sujeto: ") // TODO
+            count++
+        }
+
     }
 }
