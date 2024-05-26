@@ -20,6 +20,7 @@ class QuizSession(
         Thread.sleep(1000)
         print("1...")
         Thread.sleep(1000)
+        println()
     }
 
     private fun loadQuestions(): MutableList<Question> {
@@ -49,7 +50,11 @@ class QuizSession(
 
         while (count < numberOfQuestions) {
             val question = questions[count]
-            print("Dir. object: ${question.directObject.name} | Ind. object: ${question.indirectObject.name} | Action: ${question.infinitive} | Sujeto: ") // TODO
+            print("Dir. object: ${question.directObject.name}\n" +
+                    "Ind. object: ${question.indirectObject.name}\n" +
+                    "Action: ${question.infinitive.value}\n" +
+                    "Subject: ${question.subject.name}\n" +
+                    "Tense: ${question.tense.name}")
             count++
         }
 
