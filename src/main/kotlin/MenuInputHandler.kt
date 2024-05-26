@@ -7,7 +7,6 @@ class MenuInputHandler {
             println("How many questions do you want? ")
             userInput = readln()
 
-            // TODO Check valid input (max value, cannot be decimal, etc.)
             if (isValidNumberOfQuestions(userInput)) {
                 return userInput.toInt()
             }

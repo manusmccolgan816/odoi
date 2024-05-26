@@ -1,3 +1,4 @@
+import question.*
 import kotlin.random.Random
 
 class QuizSession(
@@ -5,10 +6,11 @@ class QuizSession(
 ) {
 
     private var questions: MutableList<Question> = mutableListOf()
+    private var questionAnswerCombos: MutableMap<Question, String> = mutableMapOf()
 
     fun startQuiz() {
         doCountdown()
-        questions = loadQuestions()
+        questions = loadQuestionsAndAnswers()
         askQuestions()
     }
 
@@ -23,12 +25,14 @@ class QuizSession(
         println()
     }
 
-    private fun loadQuestions(): MutableList<Question> {
+    private fun loadQuestionsAndAnswers(): MutableList<Question> {
         var count = 0
         val questions: MutableList<Question> = mutableListOf()
 
         while (count < numberOfQuestions) {
-            questions.add(loadRandomQuestion())
+            val question = loadRandomQuestion()
+            questions.add(question)
+            questionAnswerCombos[question] = QuizUtil.calculateAnswer(question)
             count++
         }
 
@@ -41,7 +45,7 @@ class QuizSession(
             IndirectObject.entries[Random.nextInt(0, IndirectObject.entries.size)],
             Infinitive(),
             Subject.entries[Random.nextInt(0, Subject.entries.size)],
-            Tense.entries[Random.nextInt(0, Tense.entries.size)]
+            Tense.entries[Random.nextInt(0, Tense.entries.size)],
         )
     }
 
@@ -53,10 +57,9 @@ class QuizSession(
             print("Dir. object: ${question.directObject.name}\n" +
                     "Ind. object: ${question.indirectObject.name}\n" +
                     "Action: ${question.infinitive.value}\n" +
-                    "Subject: ${question.subject.name}\n" +
-                    "Tense: ${question.tense.name}")
+                    "question.Subject: ${question.subject.name}\n" +
+                    "question.Tense: ${question.tense.name}")
             count++
         }
-
     }
 }
