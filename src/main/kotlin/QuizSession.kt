@@ -3,6 +3,7 @@ import kotlin.random.Random
 
 class QuizSession(
     private val numberOfQuestions: Int,
+    private val dbConnector: DbConnector,
 ) {
 
     private var questions: MutableList<Question> = mutableListOf()
@@ -33,6 +34,7 @@ class QuizSession(
             val question = loadRandomQuestion()
             questions.add(question)
             questionAnswerCombos[question] = QuizUtil.calculateAnswer(question)
+            dbConnector.getVerb(question.tense, question.infinitive, "Indicativo")
             count++
         }
 

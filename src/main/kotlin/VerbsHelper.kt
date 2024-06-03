@@ -19,5 +19,7 @@ class VerbsHelper {
                 count++
             }
         }
+
+        return emptyList()
     }
 }

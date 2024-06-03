@@ -9,12 +9,12 @@ object QuizUtil {
         // asegurate de tener la forma espanola del objeto directo
         // asegurate de tener la forma espanola del objeto indirecto
         val conjugatedVerb: String
-        readCsv(question)
+        //readCsv(question)
 
         return ""
     }
 
-    fun readCsv(question: Question): List<String> {
-
-    }
+//    fun readCsv(question: Question): List<String> {
+//
+//    }
 }

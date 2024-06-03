@@ -93,6 +93,16 @@
             <artifactId>kotlin-csv-js</artifactId>
             <version>1.9.3</version>
         </dependency>
+        <dependency>
+            <groupId>org.litote.kmongo</groupId>
+            <artifactId>kmongo</artifactId>
+            <version>4.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.litote.kmongo</groupId>
+            <artifactId>kmongo-coroutine</artifactId>
+            <version>4.8.0</version>
+        </dependency>
     </dependencies>
 
 </project>
