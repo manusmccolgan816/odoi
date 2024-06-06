@@ -12,9 +12,9 @@ class DbConnector {
     }
 
     fun getVerb(tense: Tense, infinitive: String, mood: String): String {
-        val query = Filters.or(
+        val query = Filters.and(
             listOf(
-                Filters.eq("tense", tense.name),
+                Filters.eq("tense", tense.spanishValue),
                 Filters.eq("infinitive", infinitive),
                 Filters.eq("mood", mood),
             )
