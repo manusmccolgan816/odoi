@@ -1,6 +1,7 @@
 import com.mongodb.client.model.Filters
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.json
+import question.Subject
 import question.Tense
 
 class DbConnector {
@@ -11,7 +12,7 @@ class DbConnector {
         private val collection = database.getCollection("jehle_verb_mongo")
     }
 
-    fun getVerb(tense: Tense, infinitive: String, mood: String): String {
+    fun getVerb(tense: Tense, infinitive: String, subject: Subject, mood: String): String {
         val query = Filters.and(
             listOf(
                 Filters.eq("tense", tense.spanishValue),
@@ -21,12 +22,12 @@ class DbConnector {
         )
 
         val result = collection.find(query).limit(1)
+        var resultingConjugatedVerb = ""
         result.forEach {
-            println("Manus ")
-            println(it)
+            resultingConjugatedVerb = it.getString(subject.correspondingNameInDb)
         }
-
-        return query.json
+        // TODO Exception handling
+        return resultingConjugatedVerb
     }
 
 }

@@ -11,7 +11,7 @@ class QuizSession(
 
     fun startQuiz() {
         doCountdown()
-        questions = loadQuestionsAndAnswers()
+        questionAnswerCombos = loadQuestionsAndAnswers()
         askQuestions()
     }
 
@@ -26,26 +26,25 @@ class QuizSession(
         println()
     }
 
-    private fun loadQuestionsAndAnswers(): MutableList<Question> {
+    private fun loadQuestionsAndAnswers(): MutableMap<Question, String> {
         var count = 0
-        val questions: MutableList<Question> = mutableListOf()
+        val questionAnswerCombos: MutableMap<Question, String> = mutableMapOf()
 
         while (count < numberOfQuestions) {
             val question = loadRandomQuestion()
-            questions.add(question)
-            questionAnswerCombos[question] = QuizUtil.calculateAnswer(question)
-            dbConnector.getVerb(question.tense, question.infinitive, "Indicativo")
+            questionAnswerCombos[question] = calculateAnswer(question)
+            println(questionAnswerCombos[question]) // TODO Remove this
             count++
         }
 
-        return questions
+        return questionAnswerCombos
     }
 
     private fun loadRandomQuestion(): Question {
         return Question(
             DirectObject.entries[Random.nextInt(0, DirectObject.entries.size)],
             IndirectObject.entries[Random.nextInt(0, IndirectObject.entries.size)],
-            "dar",
+            "dar", // TODO Carga infinitivo aleatoriamente (de una seleccion que apunto yo en el codigo, o sacado de otro archivo)
             Subject.entries[Random.nextInt(0, Subject.entries.size)],
             Tense.entries[Random.nextInt(0, Tense.entries.size)],
         )
@@ -53,6 +52,7 @@ class QuizSession(
 
     private fun askQuestions() {
         var count = 0
+        val questions = questionAnswerCombos.keys.toList()
 
         while (count < numberOfQuestions) {
             val question = questions[count]
@@ -63,5 +63,37 @@ class QuizSession(
                     "question.Tense: ${question.tense.name}")
             count++
         }
+    }
+
+    private fun calculateAnswer(question: Question): String {
+        // encuentra la forma conjugada del verbo
+        // asegurate de tener la forma espanola del objeto directo
+        // asegurate de tener la forma espanola del objeto indirecto
+        // TODO Haz algo con el modo, ahora es siempre Indicativo
+        val conjugatedVerb: String = dbConnector.getVerb(question.tense, question.infinitive, question.subject, "Indicativo")
+        val directObject: String = question.directObject.spanishValue
+        val indirectObject = calculateIndirectObject(question)
+        // TODO Anade funcionalidad para las 2 opciones en cuanto a la colocacion de los objetos
+        return "$indirectObject $directObject $conjugatedVerb"
+    }
+
+    private fun calculateIndirectObject(question: Question): String {
+        return if (doesIndirectObjectHaveToChangeToSe(question.directObject, question.indirectObject)) {
+            "se"
+        } else {
+            question.indirectObject.spanishValue
+        }
+    }
+
+    private fun doesIndirectObjectHaveToChangeToSe(directObject: DirectObject, indirectObject: IndirectObject): Boolean {
+        return isDirectObjectThirdPerson(directObject) && isIndirectObjectThirdPerson(indirectObject)
+    }
+
+    private fun isDirectObjectThirdPerson(directObject: DirectObject): Boolean {
+        return (directObject == DirectObject.HIM || directObject == DirectObject.HER || directObject == DirectObject.IT)
+    }
+
+    private fun isIndirectObjectThirdPerson(indirectObject: IndirectObject): Boolean {
+        return (indirectObject == IndirectObject.HIM || indirectObject == IndirectObject.HER || indirectObject == IndirectObject.IT)
     }
 }
