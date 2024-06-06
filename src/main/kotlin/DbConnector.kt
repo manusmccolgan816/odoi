@@ -1,8 +1,6 @@
 import com.mongodb.client.model.Filters
-import db.VerbDocument
 import org.litote.kmongo.KMongo
 import org.litote.kmongo.json
-import question.Infinitive
 import question.Tense
 
 class DbConnector {
@@ -13,11 +11,11 @@ class DbConnector {
         private val collection = database.getCollection("jehle_verb_mongo")
     }
 
-    fun getVerb(tense: Tense, infinitive: Infinitive, mood: String): String {
-        val query = Filters.or( // TODO Change this to 'and' and make sure all is correct
+    fun getVerb(tense: Tense, infinitive: String, mood: String): String {
+        val query = Filters.or(
             listOf(
                 Filters.eq("tense", tense.name),
-                Filters.eq("infinitive", infinitive.value),
+                Filters.eq("infinitive", infinitive),
                 Filters.eq("mood", mood),
             )
         )

@@ -45,7 +45,7 @@ class QuizSession(
         return Question(
             DirectObject.entries[Random.nextInt(0, DirectObject.entries.size)],
             IndirectObject.entries[Random.nextInt(0, IndirectObject.entries.size)],
-            Infinitive(),
+            "dar",
             Subject.entries[Random.nextInt(0, Subject.entries.size)],
             Tense.entries[Random.nextInt(0, Tense.entries.size)],
         )
@@ -58,7 +58,7 @@ class QuizSession(
             val question = questions[count]
             print("Dir. object: ${question.directObject.name}\n" +
                     "Ind. object: ${question.indirectObject.name}\n" +
-                    "Action: ${question.infinitive.value}\n" +
+                    "Action: ${question.infinitive}\n" +
                     "question.Subject: ${question.subject.name}\n" +
                     "question.Tense: ${question.tense.name}")
             count++
